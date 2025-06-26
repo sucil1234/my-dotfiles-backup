@@ -1,0 +1,73 @@
+{
+    "position": "top",
+    "layer": "top",
+    "height": 38,
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": [
+        "network",
+        "custom/bluetooth",
+        "pulseaudio",
+        "battery",
+        "clock",
+        "custom/power"
+    ],
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "default": "(○)",
+            "active": "(●)"
+        }
+    },
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 35
+    },
+    "clock": {
+        "format": "  {:%a %d %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": ["  ", "  ", "  ", "  ", "  "],
+        "tooltip-format": "{timeTo}\n{power}W"
+    },
+        "network": {
+        "format-wifi": "  {essid}",
+        "format-ethernet": "󰤭 Connected",
+        "format-disconnected": " Disconnected",
+        "format-alt": " {bandwidthDownBits}   {bandwidthUpBits}",
+        "tooltip-format": "{ifname} via {gwaddr} \nIP: {ipaddr}\nSignal: {signalStrength}%",
+        "interval": 1
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "  Muted",
+        "format-icons": {
+            "default": ["  ", "  ", "  "]
+        },
+        "on-click": "pavucontrol"
+    },
+    // New Bluetooth Module
+    "custom/bluetooth": {
+        "format": "{}",
+       	"exec": "bluetoothctl show | grep 'Powered: yes' && echo 'On' || echo 'Off'",
+        "tooltip": true,
+        "exec-tooltip": "bluetoothctl devices Connected | sed 's/Device //' | while read -r line; do echo -e \"$(echo $line | cut -d ' ' -f 2-)\"; done",
+        "on-click": "blueman-manager",
+        "interval": 30
+    },
+    // A cool power button
+    "custom/power": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "~/.config/wofi/power-menu.sh"  // Requires wofi-power-menu script
+    }
+}
